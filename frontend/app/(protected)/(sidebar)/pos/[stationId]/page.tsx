@@ -82,7 +82,7 @@ export default function POSStation() {
   const fetchStation = async () => {
     try {
       const response = await fetch(`/api/backend/bar-stations/${stationId}`);
-      
+
       if (!response.ok) {
         if (response.status === 403 || response.status === 404) {
           setError("You don't have access to this station");
@@ -103,7 +103,7 @@ export default function POSStation() {
   const fetchProducts = useCallback(async () => {
     try {
       setLoading(true);
-      
+
       const url = selectedCategory
         ? `/api/backend/inventory?categoryId=${selectedCategory}`
         : "/api/backend/inventory";
@@ -153,13 +153,13 @@ export default function POSStation() {
     fetchProducts();
     fetchCategories();
     fetchCurrentUser();
-    
+
     // Load cart from localStorage with station-specific key
     const savedCart = localStorage.getItem(`pos-cart-${stationId}`);
     if (savedCart) {
       setCart(JSON.parse(savedCart));
     }
-    
+
     const refreshInterval = setInterval(fetchProducts, 1000 * 60);
     return () => clearInterval(refreshInterval);
   }, [stationId, fetchProducts]);
@@ -571,4 +571,3 @@ export default function POSStation() {
     </div>
   );
 }
-
