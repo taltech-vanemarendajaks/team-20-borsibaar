@@ -39,8 +39,7 @@ build-frontend:
     - npm run build
   artifacts:
     paths:
-      - frontend/.next/
-      - frontend/public/
+      - frontend/out/
     expire_in: 1 hour
   only:
     - main
