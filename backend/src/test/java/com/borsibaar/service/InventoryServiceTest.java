@@ -102,6 +102,8 @@ class InventoryServiceTest {
         Inventory inv = new Inventory(); inv.setId(9L); inv.setOrganizationId(1L); inv.setProduct(product); inv.setProductId(5L); inv.setQuantity(BigDecimal.valueOf(5)); inv.setAdjustedPrice(BigDecimal.valueOf(2)); inv.setUpdatedAt(OffsetDateTime.now());
         when(productRepository.findById(5L)).thenReturn(Optional.of(product));
         when(inventoryRepository.findByOrganizationIdAndProductId(1L, 5L)).thenReturn(Optional.of(inv));
+        when(inventoryRepository.save(any(Inventory.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
         when(inventoryMapper.toResponse(any())).thenAnswer(a -> {
             Inventory i = a.getArgument(0); return new InventoryResponseDto(i.getId(), i.getOrganizationId(), i.getProductId(), "Prod", i.getQuantity(), i.getAdjustedPrice(), null, null, null, i.getUpdatedAt().toString()); });
 
