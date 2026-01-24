@@ -52,4 +52,8 @@ public class Inventory {
         this.createdAt = OffsetDateTime.now();
         this.updatedAt = OffsetDateTime.now();
     }
+
+    public Long getOrganizationId() {
+        return product.getOrganizationId();
+    }
 }
