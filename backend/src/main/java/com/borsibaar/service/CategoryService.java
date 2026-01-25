@@ -29,6 +29,7 @@ public class CategoryService {
 
         Category category = categoryMapper.toEntity(request);
 
+        // Set organization ID
         category.setOrganizationId(organizationId);
 
         String normalizedName = request.name() == null ? null : request.name().trim();
@@ -40,6 +41,7 @@ public class CategoryService {
         boolean dynamicPricing = request.dynamicPricing() != null ? request.dynamicPricing() : true;
         category.setDynamicPricing(dynamicPricing);
 
+        // Check for duplicate category name within the same organization
         if (categoryRepository.existsByOrganizationIdAndNameIgnoreCase(organizationId, normalizedName)) {
             throw new DuplicateResourceException("Category '" + normalizedName + "' already exists");
         }
