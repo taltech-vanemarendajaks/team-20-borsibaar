@@ -26,8 +26,9 @@ public class CategoryService {
 
     @Transactional
     public CategoryResponseDto create(CategoryRequestDto request, Long organizationId) {
-
         Category category = categoryMapper.toEntity(request);
+
+
 
         // Set organization ID
         category.setOrganizationId(organizationId);
@@ -38,6 +39,8 @@ public class CategoryService {
         }
         category.setName(normalizedName);
 
+
+
         boolean dynamicPricing = request.dynamicPricing() != null ? request.dynamicPricing() : true;
         category.setDynamicPricing(dynamicPricing);
 
@@ -47,7 +50,6 @@ public class CategoryService {
         }
 
         Category saved = categoryRepository.save(category);
-
         return categoryMapper.toResponse(saved);
     }
 
