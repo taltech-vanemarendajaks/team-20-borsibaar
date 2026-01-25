@@ -28,6 +28,8 @@ public class CategoryService {
     public CategoryResponseDto create(CategoryRequestDto request, Long organizationId) {
         Category category = categoryMapper.toEntity(request);
 
+
+
         category.setOrganizationId(organizationId);
 
         String normalizedName = request.name() == null ? null : request.name().trim();
@@ -35,6 +37,8 @@ public class CategoryService {
             throw new BadRequestException("Category name must not be blank");
         }
         category.setName(normalizedName);
+
+        
 
         boolean dynamicPricing = request.dynamicPricing() != null ? request.dynamicPricing() : true;
         category.setDynamicPricing(dynamicPricing);
