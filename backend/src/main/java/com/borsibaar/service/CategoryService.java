@@ -26,6 +26,7 @@ public class CategoryService {
 
     @Transactional
     public CategoryResponseDto create(CategoryRequestDto request, Long organizationId) {
+
         Category category = categoryMapper.toEntity(request);
 
         category.setOrganizationId(organizationId);
@@ -44,6 +45,7 @@ public class CategoryService {
         }
 
         Category saved = categoryRepository.save(category);
+
         return categoryMapper.toResponse(saved);
     }
 
