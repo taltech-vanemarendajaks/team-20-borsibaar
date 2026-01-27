@@ -30,6 +30,9 @@ public class CategoryService {
 
 
 
+
+
+
         category.setOrganizationId(organizationId);
 
         String normalizedName = request.name() == null ? null : request.name().trim();
