@@ -21,7 +21,7 @@ public interface InventoryTransactionRepository extends JpaRepository<InventoryT
     @Query("""
             SELECT it FROM InventoryTransaction it
             JOIN Inventory i ON it.inventoryId = i.id
-            JOIN i.product p
+            JOIN Product p ON i.productId = p.id
             WHERE p.organizationId = :organizationId
             AND it.transactionType = 'SALE'
             ORDER BY it.createdAt DESC
