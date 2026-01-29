@@ -68,7 +68,6 @@ public class InventoryService {
 
                     return new InventoryResponseDto(
                             base.id(),
-                            base.organizationId(),
                             base.productId(),
                             productName,
                             base.quantity(),
@@ -106,7 +105,6 @@ public class InventoryService {
 
         return new InventoryResponseDto(
                 base.id(),
-                base.organizationId(),
                 base.productId(),
                 productName,
                 base.quantity(),
@@ -152,7 +150,6 @@ public class InventoryService {
         InventoryResponseDto base = inventoryMapper.toResponse(inventory);
         return new InventoryResponseDto(
                 base.id(),
-                base.organizationId(),
                 base.productId(),
                 product.getName(),
                 base.quantity(),
@@ -197,7 +194,6 @@ public class InventoryService {
         InventoryResponseDto base = inventoryMapper.toResponse(inventory);
         return new InventoryResponseDto(
                 base.id(),
-                base.organizationId(),
                 base.productId(),
                 product.getName(),
                 base.quantity(),
@@ -235,7 +231,6 @@ public class InventoryService {
         InventoryResponseDto base = inventoryMapper.toResponse(inventory);
         return new InventoryResponseDto(
                 base.id(),
-                base.organizationId(),
                 base.productId(),
                 product.getName(),
                 base.quantity(),
