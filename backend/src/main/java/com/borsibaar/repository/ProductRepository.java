@@ -21,7 +21,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             SELECT 1
             FROM inventory_transactions it_org
             JOIN inventory i_org ON i_org.id = it_org.inventory_id
-            WHERE i_org.organization_id = inv.organization_id
+            WHERE i_org.product_id = p.id
               AND it_org.transaction_type = 'SALE'
               AND it_org.created_at >= (CURRENT_TIMESTAMP - INTERVAL '1 minute')
           )
