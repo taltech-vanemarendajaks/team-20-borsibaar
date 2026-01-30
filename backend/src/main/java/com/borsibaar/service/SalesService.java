@@ -38,12 +38,7 @@ public class SalesService {
                 BigDecimal totalAmount = BigDecimal.ZERO;
 
                 // Process each item in the sale
-                for (SaleItemRequestDto item : request.items()) {
-                        SaleItemResponseDto saleItem = processSaleItem(item, userId, organizationId, saleId,
-                                        request.barStationId());
-                        saleItems.add(saleItem);
-                        totalAmount = totalAmount.add(saleItem.totalPrice());
-                }
+                totalAmount = getTotalAmount(request, userId, organizationId, saleId, saleItems, totalAmount);
 
                 return new SaleResponseDto(
                                 saleId,
@@ -51,6 +46,16 @@ public class SalesService {
                                 totalAmount,
                                 request.notes(),
                                 OffsetDateTime.now());
+        }
+
+        private BigDecimal getTotalAmount(SaleRequestDto request, UUID userId, Long organizationId, String saleId, List<SaleItemResponseDto> saleItems, BigDecimal totalAmount) {
+                for (SaleItemRequestDto item : request.items()) {
+                        SaleItemResponseDto saleItem = processSaleItem(item, userId, organizationId, saleId,
+                                        request.barStationId());
+                        saleItems.add(saleItem);
+                        totalAmount = totalAmount.add(saleItem.totalPrice());
+                }
+                return totalAmount;
         }
 
         private SaleItemResponseDto processSaleItem(SaleItemRequestDto item, UUID userId, Long organizationId,
