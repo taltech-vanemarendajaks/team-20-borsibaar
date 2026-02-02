@@ -72,7 +72,7 @@ class InventoryServiceTest {
         when(inventoryRepository.findByProductOrganizationIdAndProductId(1L, 5L)).thenReturn(Optional.empty());
         when(inventoryRepository.save(any(Inventory.class))).thenAnswer(inv -> { Inventory i = inv.getArgument(0); i.setId(77L); return i; });
         when(inventoryMapper.toResponse(any())).thenAnswer(inv -> {
-            Inventory i = inv.getArgument(0); return new InventoryResponseDto(i.getId(), i.getOrganizationId(), i.getProductId(), "P", i.getQuantity(), i.getAdjustedPrice(), product.getDescription(), null, null, null, i.getUpdatedAt().toString()); });
+            Inventory i = inv.getArgument(0); return new InventoryResponseDto(i.getId(), product.getOrganizationId(), i.getProductId(), "P", i.getQuantity(), i.getAdjustedPrice(), product.getDescription(), null, null, null, i.getUpdatedAt().toString()); });
 
         AddStockRequestDto request = new AddStockRequestDto(5L, BigDecimal.valueOf(10), "Notes");
         InventoryResponseDto dto = inventoryService.addStock(request, userId, 1L);
@@ -109,7 +109,7 @@ class InventoryServiceTest {
         when(inventoryRepository.save(any(Inventory.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
         when(inventoryMapper.toResponse(any())).thenAnswer(a -> {
-            Inventory i = a.getArgument(0); return new InventoryResponseDto(i.getId(), i.getOrganizationId(), i.getProductId(), "Prod", i.getQuantity(), i.getAdjustedPrice(), product.getDescription(), null, null, null, i.getUpdatedAt().toString()); });
+            Inventory i = a.getArgument(0); return new InventoryResponseDto(i.getId(), product.getOrganizationId(), i.getProductId(), "Prod", i.getQuantity(), i.getAdjustedPrice(), product.getDescription(), null, null, null, i.getUpdatedAt().toString()); });
 
         AdjustStockRequestDto request = new AdjustStockRequestDto(5L, BigDecimal.valueOf(8), "Adj");
         InventoryResponseDto dto = inventoryService.adjustStock(request, userId, 1L);
@@ -157,7 +157,7 @@ class InventoryServiceTest {
         when(productRepository.findById(5L)).thenReturn(Optional.of(product));
         when(inventoryRepository.findByProductOrganizationIdAndProductId(1L, 5L)).thenReturn(Optional.of(inv));
         when(inventoryRepository.save(any(Inventory.class))).thenAnswer(a -> a.getArgument(0));
-        when(inventoryMapper.toResponse(any())).thenAnswer(a -> { Inventory i = a.getArgument(0); return new InventoryResponseDto(i.getId(), i.getOrganizationId(), i.getProductId(), "Prod", i.getQuantity(), i.getAdjustedPrice(), product.getDescription(), null, null, null, i.getUpdatedAt().toString());});
+        when(inventoryMapper.toResponse(any())).thenAnswer(a -> { Inventory i = a.getArgument(0); return new InventoryResponseDto(i.getId(), product.getOrganizationId(), i.getProductId(), "Prod", i.getQuantity(), i.getAdjustedPrice(), product.getDescription(), null, null, null, i.getUpdatedAt().toString());});
 
         RemoveStockRequestDto request = new RemoveStockRequestDto(5L, new BigDecimal("3"), "sale-1", "note");
         InventoryResponseDto dto = inventoryService.removeStock(request, userId, 1L);
