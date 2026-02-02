@@ -47,7 +47,7 @@ public class InventoryService {
         if (categoryId != null) {
             inventories = inventoryRepository.findByOrganizationIdAndCategoryId(organizationId, categoryId);
         } else {
-            inventories = inventoryRepository.findByOrganizationId(organizationId);
+            inventories = inventoryRepository.findByProductOrganizationId(organizationId);
         }
 
         return inventories.stream()
@@ -68,7 +68,7 @@ public class InventoryService {
 
                     return new InventoryResponseDto(
                             base.id(),
-                            base.organizationId(),
+                            product.getOrganizationId(),
                             base.productId(),
                             productName,
                             base.quantity(),
@@ -87,7 +87,7 @@ public class InventoryService {
     @Transactional(readOnly = true)
     public InventoryResponseDto getByProductAndOrganization(Long productId, Long organizationId) {
         Inventory inventory = inventoryRepository
-                .findByOrganizationIdAndProductId(organizationId, productId)
+                .findByProductOrganizationIdAndProductId(organizationId, productId)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "No inventory found for this product"));
 
@@ -106,7 +106,7 @@ public class InventoryService {
 
         return new InventoryResponseDto(
                 base.id(),
-                base.organizationId(),
+                product.getOrganizationId(),
                 base.productId(),
                 productName,
                 base.quantity(),
@@ -124,10 +124,9 @@ public class InventoryService {
 
         // Get or create inventory
         Inventory inventory = inventoryRepository
-                .findByOrganizationIdAndProductId(organizationId, request.productId())
+                .findByProductOrganizationIdAndProductId(organizationId, request.productId())
                 .orElseGet(() -> {
                     Inventory newInv = new Inventory();
-                    newInv.setOrganizationId(organizationId);
                     newInv.setProduct(product);
                     newInv.setQuantity(BigDecimal.ZERO);
                     newInv.setAdjustedPrice(product.getBasePrice());
@@ -153,7 +152,7 @@ public class InventoryService {
         InventoryResponseDto base = inventoryMapper.toResponse(inventory);
         return new InventoryResponseDto(
                 base.id(),
-                base.organizationId(),
+                product.getOrganizationId(),
                 base.productId(),
                 product.getName(),
                 base.quantity(),
@@ -169,7 +168,7 @@ public class InventoryService {
         Product product = getOrganizationProduct(organizationId, request.productId());
 
         Inventory inventory = inventoryRepository
-                .findByOrganizationIdAndProductId(organizationId, request.productId())
+                .findByProductOrganizationIdAndProductId(organizationId, request.productId())
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "No inventory found for this product"));
 
@@ -198,7 +197,7 @@ public class InventoryService {
         InventoryResponseDto base = inventoryMapper.toResponse(inventory);
         return new InventoryResponseDto(
                 base.id(),
-                base.organizationId(),
+                product.getOrganizationId(),
                 base.productId(),
                 product.getName(),
                 base.quantity(),
@@ -214,7 +213,7 @@ public class InventoryService {
         Product product = getOrganizationProduct(organizationId, request.productId());
 
         Inventory inventory = inventoryRepository
-                .findByOrganizationIdAndProductId(organizationId, request.productId())
+                .findByProductOrganizationIdAndProductId(organizationId, request.productId())
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "No inventory found for this product"));
 
@@ -236,7 +235,7 @@ public class InventoryService {
         InventoryResponseDto base = inventoryMapper.toResponse(inventory);
         return new InventoryResponseDto(
                 base.id(),
-                base.organizationId(),
+                product.getOrganizationId(),
                 base.productId(),
                 product.getName(),
                 base.quantity(),
@@ -250,7 +249,7 @@ public class InventoryService {
     @Transactional(readOnly = true)
     public List<InventoryTransactionResponseDto> getTransactionHistory(Long productId, Long organizationId) {
         Inventory inventory = inventoryRepository
-                .findByOrganizationIdAndProductId(organizationId, productId)
+                .findByProductOrganizationIdAndProductId(organizationId, productId)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "No inventory found for this product"));
 
