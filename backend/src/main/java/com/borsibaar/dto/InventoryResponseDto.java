@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public record InventoryResponseDto(
         Long id,
+        Long organizationId,
         Long productId,
         String productName,
         BigDecimal quantity,
