@@ -26,6 +26,16 @@ public class AuthController {
 
     @GetMapping("/login/success")
     public void success(HttpServletResponse response, OAuth2AuthenticationToken auth) throws IOException {
+        if (auth == null) {
+            System.out.println("[AUTH] OAuth2AuthenticationToken is NULL. Possible session/cookie issue.");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\":\"Unauthorized: OAuth2 authentication required\"}");
+            return;
+        }
+        System.out.println("[AUTH] OAuth2AuthenticationToken present. Principal: " + auth.getPrincipal());
+        System.out.println("[AUTH] Authorities: " + auth.getAuthorities());
+        System.out.println("[AUTH] Details: " + auth.getDetails());
         var result = authService.processOAuthLogin(auth);
 
         Cookie cookie = new Cookie("jwt", result.dto().token());
@@ -36,6 +46,7 @@ public class AuthController {
         response.addCookie(cookie);
 
         String redirect = result.needsOnboarding() ? "/onboarding" : "/dashboard";
+        System.out.println("[AUTH] Redirecting to: " + frontendUrl + redirect);
         response.sendRedirect(frontendUrl + redirect);
     }
 
