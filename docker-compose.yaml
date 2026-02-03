@@ -27,8 +27,22 @@ services:
       - .env
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+      APP_FRONTEND_URL: ${APP_FRONTEND_URL}
+      APP_CORS_ALLOWED_ORIGINS: ${APP_CORS_ALLOWED_ORIGINS}
     depends_on:
       - postgres
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    container_name: borsibaar-frontend
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:
